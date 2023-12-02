@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "es2022",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "outDir": "ts-built",
-    "alwaysStrict": false
+    "alwaysStrict": false // this is for the REPL extension
   },
   "include": ["**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

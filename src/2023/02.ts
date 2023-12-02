@@ -1,34 +1,26 @@
 // https://adventofcode.com/2023/day/2
 
-import { fileToArray } from "./utils.mjs";
+import { fileToArray } from "../utils";
 
-const lines = fileToArray("/home/damienc/git/advent_of_code/day_2.mjs");
+const lines = fileToArray(__filename);
 
 /* Part 1 */
 
-/**
- * @param {string} withoutSpace
- * @param {string} color
- */
-const getMaxNumberFrom = (withoutSpace, color) => {
+const getMaxNumberFrom = (withoutSpace: string, color: string) => {
   return withoutSpace.split(color).reduce((prev, cur) => {
     const currentRedMatch = cur.match(/\d+$/);
     if (currentRedMatch === null) {
       return prev;
     }
 
-    return Math.max(prev, currentRedMatch[0]);
+    return Math.max(prev, parseInt(currentRedMatch[0]));
   }, 0);
 };
 
-/**
- * @param {string} line
- * @param {undefined | {red: number, green: number, blue: number}} maxPossible
- */
-const getInfoFromLine = (line, maxPossible) => {
+type RGB = { red: number; green: number; blue: number };
+const getInfoFromLine = (line: string, maxPossible?: RGB) => {
   const id = parseInt(line.split(" ")[1]);
 
-  /** @type string */
   const withoutSpace = line.replaceAll(" ", "");
 
   const max = {

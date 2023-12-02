@@ -1,23 +1,19 @@
 // https://adventofcode.com/2021/day/4
 
-import { fileToArray } from "../utils.mjs";
+import { fileToArray } from "../utils";
 
-const lines = fileToArray("/home/damienc/git/advent_of_code/2021/day_4.input");
+const lines = fileToArray(__filename);
 
 /* Part 1 */
 
 const drawnNumbers = lines[0];
 
-function buildBingoBoard() {
-  /**
-   * @type {{number: string, marked: boolean}[][][]}
-   */
-  const bingoBoards = [];
+type BingoBoard = { number: number; marked: boolean }[][];
+type NumberToBingoBoard = { [x: string]: { matrixIndex: number; lineIndex: number; columnIndex: number }[] };
 
-  /**
-   * @type {{[x: string]: {matrixIndex: number, lineIndex: number, columnIndex: number}[]}}
-   */
-  const numberToBingoBoard = {};
+function buildBingoBoard() {
+  const bingoBoards: BingoBoard[] = [];
+  const numberToBingoBoard: NumberToBingoBoard = {};
 
   // This builds the bingo board
   for (let i = 2; i < lines.length; i += 6) {
@@ -30,7 +26,7 @@ function buildBingoBoard() {
         .trim()
         .replaceAll("  ", " ")
         .split(" ")
-        .map((number, columnIndex) => {
+        .map((number, columnIndex): BingoBoard[0][0] => {
           // We do a reverse map (number -> board) to easily find where to mark
           if (numberToBingoBoard[number] === undefined) {
             numberToBingoBoard[number] = [{ matrixIndex, lineIndex, columnIndex }];
@@ -38,7 +34,7 @@ function buildBingoBoard() {
             numberToBingoBoard[number].push({ matrixIndex, lineIndex, columnIndex });
           }
 
-          return { number, marked: false };
+          return { number: parseInt(number), marked: false };
         });
 
       return bingoLine;
@@ -49,7 +45,7 @@ function buildBingoBoard() {
   return { bingoBoards, numberToBingoBoard };
 }
 
-function getScore(bingoBoard, lastBingoNumber) {
+function getScore(bingoBoard: BingoBoard, lastBingoNumber: number) {
   const unmarkedSum = bingoBoard.reduce((prev, curLine) => {
     return (
       prev +
@@ -57,11 +53,11 @@ function getScore(bingoBoard, lastBingoNumber) {
         if (curNumber.marked) {
           return prev;
         }
-        return prev + parseInt(curNumber.number);
+        return prev + curNumber.number;
       }, 0)
     );
   }, 0);
-  return unmarkedSum * parseInt(lastBingoNumber);
+  return unmarkedSum * lastBingoNumber;
 }
 
 function getFinalScore() {
@@ -99,7 +95,9 @@ function getFinalScore() {
     }
   }
 
-  return getScore(bingoBoards[winningBoardIndex], winningNumber);
+  return winningBoardIndex !== undefined && winningNumber !== undefined
+    ? getScore(bingoBoards[winningBoardIndex], parseInt(winningNumber))
+    : -1;
 }
 console.log("Your final score is", getFinalScore());
 

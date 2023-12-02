@@ -2,9 +2,12 @@
   "name": "advent_of_code",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node --loader ts-node/esm index.ts"
+    "node": "node --loader ts-node/esm $1",
+    "start-year-day": "node --loader ts-node/esm ./src/$YEAR/$DAY.ts",
+    "init-year-day": "node --loader ts-node/esm ./src/init.ts $YEAR $DAY $(grep SESSION_ID .env | cut -d '=' -f2)"
   },
   "author": "",
   "license": "ISC",

@@ -1,15 +1,12 @@
 // https://adventofcode.com/2023/day/1
 
-import { fileToArray } from "./utils.mjs";
+import { fileToArray } from "../utils";
 
-const lines = fileToArray("/home/damienc/git/advent_of_code/day_1.input");
+const lines = fileToArray(__filename);
 
 /* Part 1 */
 
-/**
- * @param {string} line
- */
-const getNumberFromLine = (line) => {
+const getNumberFromLine = (line: string) => {
   const numberString = line.replace(/\D/g, "");
 
   return parseInt(`${numberString[0]}${numberString[numberString.length - 1]}`);
@@ -25,12 +22,9 @@ console.log("The sum of all calibration values is", calibrationSum);
 
 const spelledOutNumbers = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
-/**
- * @param {string} string
- */
-const getFirstNumberFromFiveChars = (string) => {
-  const firstNumber = string.replace(/\D/g, "")[0];
-  let firstSpelledOutNumber = undefined;
+const getFirstNumberFromFiveChars = (string: string) => {
+  const firstNumber: string | undefined = string.replace(/\D/g, "")[0];
+  let firstSpelledOutNumber: number | undefined = undefined;
   for (let [index, s] of spelledOutNumbers.entries()) {
     if (string.includes(s)) {
       firstSpelledOutNumber = index + 1;
@@ -44,21 +38,18 @@ const getFirstNumberFromFiveChars = (string) => {
     if (index0 < index1) {
       return parseInt(firstNumber);
     } else {
-      return parseInt(firstSpelledOutNumber);
+      return firstSpelledOutNumber;
     }
   } else if (firstNumber !== undefined) {
     return parseInt(firstNumber);
   } else if (firstSpelledOutNumber !== undefined) {
-    return parseInt(firstSpelledOutNumber);
+    return firstSpelledOutNumber;
   } else {
     return undefined;
   }
 };
 
-/**
- * @param {string} line
- */
-const getActualNumberFromLine = (line) => {
+const getActualNumberFromLine = (line: string) => {
   let firstNumber = 0;
   let lastNumber = 0;
 
