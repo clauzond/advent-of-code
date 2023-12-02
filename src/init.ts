@@ -35,7 +35,7 @@ async function createFile(year: string, paddedDay: string, sessionId: string) {
 }
 
 if (process.argv.length === 5 && process.argv[2] !== "" && process.argv[3] !== "" && process.argv[4] !== "") {
-  await createFile(process.argv[2], process.argv[3], process.argv[4]);
+  createFile(process.argv[2], process.argv[3], process.argv[4]);
 } else {
   console.log("Not enough parameters. Expected: year day sessionId");
 }
