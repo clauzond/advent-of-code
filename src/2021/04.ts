@@ -60,7 +60,7 @@ function getScore(bingoBoard: BingoBoard, lastBingoNumber: number) {
   return unmarkedSum * lastBingoNumber;
 }
 
-function getFinalScore() {
+function getFirstBingoScore() {
   const { bingoBoards, numberToBingoBoard } = buildBingoBoard();
   let winningBoardIndex = undefined;
   let winningNumber = undefined;
@@ -99,6 +99,57 @@ function getFinalScore() {
     ? getScore(bingoBoards[winningBoardIndex], parseInt(winningNumber))
     : -1;
 }
-console.log("Your final score is", getFinalScore());
+console.log("Your final score is", getFirstBingoScore());
 
 /* Part 2 */
+
+function getLastBingoScore() {
+  const { bingoBoards, numberToBingoBoard } = buildBingoBoard();
+  let winners: number[] = [];
+  let numberOfWinningBingo = 0;
+  let lastWinningBoardIndex = undefined;
+  let lastWinningNumber = undefined;
+
+  for (const drawnNumber of drawnNumbers.split(",")) {
+    const matricesToMark = numberToBingoBoard[drawnNumber];
+
+    for (const n of matricesToMark) {
+      if (winners.includes(n.matrixIndex)) {
+        continue;
+      }
+
+      bingoBoards[n.matrixIndex][n.lineIndex][n.columnIndex].marked = true;
+
+      // We check if board wins
+      let numberOfMarkedInLine = 0;
+      let numberOfMarkedInColumn = 0;
+      for (let i = 0; i < 5; i++) {
+        if (bingoBoards[n.matrixIndex][i][n.columnIndex].marked) {
+          numberOfMarkedInColumn++;
+        }
+        if (bingoBoards[n.matrixIndex][n.lineIndex][i].marked) {
+          numberOfMarkedInLine++;
+        }
+      }
+
+      if (numberOfMarkedInLine === 5 || numberOfMarkedInColumn === 5) {
+        lastWinningBoardIndex = n.matrixIndex;
+        lastWinningNumber = drawnNumber;
+        winners.push(n.matrixIndex);
+
+        if (winners.length === 100) break;
+      }
+    }
+
+    if (winners.length === 100) break;
+
+    if (numberOfWinningBingo === bingoBoards.length) {
+      break;
+    }
+  }
+
+  return lastWinningBoardIndex !== undefined && lastWinningNumber !== undefined
+    ? getScore(bingoBoards[lastWinningBoardIndex], parseInt(lastWinningNumber))
+    : -1;
+}
+console.log("Your last final score is", getLastBingoScore());
