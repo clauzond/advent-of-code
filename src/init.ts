@@ -10,6 +10,11 @@ const lines = fileToArray(__filename);
 const examples = fileToArray(__filename, '.example');
 
 /* Part 1 */
+function solve(lines: string[]) {
+  return;
+}
+
+console.log('', solve(examples));
 
 /* Part 2 */
 `;
